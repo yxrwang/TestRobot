@@ -1,0 +1,23 @@
+group 'au.com.arvis'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'au.com.arvis.Main'
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+jar {
+    manifest {
+        // This manifest entry required to make the jar executable
+        attributes 'Main-Class': 'au.com.arvis.Main'
+    }
+
+    // Bundle dependencies into final, executable jar
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
